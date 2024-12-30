@@ -9,7 +9,10 @@ namespace InheritanceEntityFramework.Configurations
         public static IServiceCollection AddDataInfrastructure(this IServiceCollection services)
         {
             services.AddDbContext<AppDbContext>(options =>
-                options.UseSqlServer("Data source=(localdb)\\mssqllocaldb; Initial Catalog=InheritanceEntityFramework;Integrated Security=true;pooling=true;"));
+                options
+                    .UseSqlServer("Data source=(localdb)\\mssqllocaldb; Initial Catalog=InheritanceEntityFramework;Integrated Security=true;pooling=true;")
+                    .LogTo(Console.WriteLine)                    
+                    .EnableSensitiveDataLogging());
 
             EnsureDeletedAndCreatedDataBase(services);
 

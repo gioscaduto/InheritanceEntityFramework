@@ -1,5 +1,5 @@
 ﻿using InheritanceEntityFramework.Configurations;
-using InheritanceEntityFramework.Entities;
+using InheritanceEntityFramework.FakeData;
 using InheritanceEntityFramework.Services;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -7,14 +7,11 @@ var services = new ServiceCollection();
 services.AddDataInfrastructure();
 services.ResolveDependencies();
 
-var serviceProvider = services.BuildServiceProvider();
-var vehicleService = serviceProvider.GetRequiredService<IVehicleService>();
+var vehicleService = services.BuildServiceProvider()
+    .GetRequiredService<IVehicleService>();
 
-var car = new Car(brand: "Bugatti", model: "Chiron Super Sport 300+", 
-    maximumSpeed: 304, numberOfDoors: 2, hasAirConditioning: true);
-
-var motorCycle = new MotorCycle(brand: "Kawasaki", model: "Ninja H2R ", 
-    maximumSpeed: 249, hasSidecar: false);
+var car = FakeData.GenerateValidCar();
+var motorCycle = FakeData.GenerateValidMotorCycle();
 
 await vehicleService.Add(car);
 await vehicleService.Add(motorCycle);
@@ -24,11 +21,3 @@ motorCycle.Update(hasSidecar: true);
 
 await vehicleService.UpdateOnlySpecificProperties(car);
 await vehicleService.UpdateOnlySpecificProperties(motorCycle);
-
-
-
-
-
-
-
-

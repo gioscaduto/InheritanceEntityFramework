@@ -1,14 +1,12 @@
 ﻿using InheritanceEntityFramework.Data;
 using InheritanceEntityFramework.Entities;
-using InheritanceEntityFramework.Entities.Validations;
-using InheritanceEntityFramework.Extensions;
 
 namespace InheritanceEntityFramework.Repositories;
 
 class VehicleRepository(AppDbContext context) : IVehicleRepository
 {
     private readonly AppDbContext _context = context;
-    
+
     public async Task Add(Vehicle vehicle)
     {
         _context.Add(vehicle);
@@ -20,15 +18,15 @@ class VehicleRepository(AppDbContext context) : IVehicleRepository
         switch (vehicle)
         {
             case Car car:
-                _context.Entry(vehicle).Property(nameof(Car.NumberOfDoors))
-                        .CurrentValue = vehicle.GetNumberOfDoors();
+                _context.Entry(car).Property(nameof(Car.NumberOfDoors))
+                        .CurrentValue = car.NumberOfDoors;
 
-                _context.Entry(vehicle).Property(nameof(Car.HasAirConditioning))
-                        .CurrentValue = vehicle.GetHasAirConditioning();
+                _context.Entry(car).Property(nameof(Car.HasAirConditioning))
+                        .CurrentValue = car.HasAirConditioning;
                 break;
             case MotorCycle motorCycle:
-                _context.Entry(vehicle).Property(nameof(MotorCycle.HasSidecar))
-                        .CurrentValue = vehicle.GetHasSidecar();
+                _context.Entry(motorCycle).Property(nameof(MotorCycle.HasSidecar))
+                        .CurrentValue = motorCycle.HasSidecar;
                 break;
             default:
                 throw new NotImplementedException(nameof(Vehicle));
